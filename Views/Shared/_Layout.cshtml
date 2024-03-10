@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href=@Url.Content("/Content/bootstrap/css/bootstrap.min.css") rel="stylesheet" type="text/css">
+    <link href=@Url.Content("/Content/bootstrap/bootstrap-icons-1.11.3/font/bootstrap-icons.css") rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Attivita/Base/">
+                    <img src=@Url.Content("/Content/bootstrap/img/origami.png") alt="logo" width="35" height="35">MyAdmin Core
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/Attivita/Base/"><i class="bi bi-house-gear-fill"></i> Dash</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Attivita/Trend/"><i class="bi bi-clipboard-data"></i> Trend</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Attivita/Categoria/"><i class="bi bi-diagram-3"></i> Categorie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Attivita/Media/"><i class="bi bi-aspect-ratio"></i> Media</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Attivita/Ricerca/"><i class="bi bi-search"></i> Cerca</a>
+                        </li>
+                    </ul>
+                    <form asp-controller="Attivita" asp-action="Ricerca" method="get" class="d-flex" role="search">
+                        <input type="text" name="cerca" class="form-control" placeholder="Cerca attivita..." value="" />
+                        &nbsp;&nbsp;
+                        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <form asp-controller="Attivita" asp-action="Base" method="get" class="d-flex" role="search">
+                        <select name="anno" class="form-select form-select-lg" aria-label="Anno">
+                            @for (var i = 2020; i <= DateTime.Today.Year; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        &nbsp;
+                        <select name="mese" class="form-select form-select-lg" aria-label="Mese">
+                            <option value="1">Gennaio</option>
+                            <option value="2">Febbraio</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Aprile</option>
+                            <option value="5">Maggio</option>
+                            <option value="6">Giugno</option>
+                            <option value="7">Luglio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Settembre</option>
+                            <option value="10">Ottobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Dicembre</option>
+                        </select>
+                        &nbsp;
+                        &nbsp;
+                        <button class="btn btn-outline-danger" type="submit">Cerca</button>
+                    </form>
+                    &nbsp;&nbsp;&nbsp;
+                    <a class="navbar-brand" href="#">
+                        @DateTime.Now
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="container-fluid">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary"><i class="bi bi-c-circle-fill"></i> <b>Fabio Gianlorenzo</b> .NET Core 8.0 Project (MVC Pattern) - <i class="bi bi-file-text-fill"></i> @Html.ActionLink("LICENSE", "License", "Attivita", null, null)</p>
+
+            <a class="navbar-brand" href="#">
+                <img src=@Url.Content("/Content/bootstrap/img/origami.png") alt="logo" width="35" height="35"><b>MyAdmin Core</b> V.1.0.2 [@DateTime.Now]
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/Attivita/Base/" class="nav-link px-2 text-body-secondary"><i class="bi bi-house-gear-fill"></i> Dash</a></li>
+                <li class="nav-item"><a href="/Attivita/Trend/" class="nav-link px-2 text-body-secondary"><i class="bi bi-clipboard-data-fill"></i> Trend</a></li>
+                <li class="nav-item"><a href="/Attivita/Categoria/" class="nav-link px-2 text-body-secondary"><i class="bi bi-diagram-3-fill"></i> Categorie</a></li>
+                <li class="nav-item"><a href="/Attivita/Media/" class="nav-link px-2 text-body-secondary"><i class="bi bi-aspect-ratio-fill"></i> Media</a></li>
+                <li class="nav-item"><a href="/Attivita/Ricerca/" class="nav-link px-2 text-body-secondary"><i class="bi bi-search"></i> Cerca</a></li>
+            </ul>
+        </footer>
+    </div>
+    <script src=@Url.Content("/Content/bootstrap/js/bootstrap.bundle.min.js")></script>
+    <!-- ChartJS 2.8 ver -->
+    <script src=@Url.Content("/Content/plugins/chartjs/Chart.min.js") type="text/javascript"></script> 
+</body>
+</html>

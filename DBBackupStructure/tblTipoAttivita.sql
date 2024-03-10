@@ -1,0 +1,12 @@
+CREATE TABLE [dbo].[tblTipoAttivita](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[TipoAttivita] [nvarchar](255) NOT NULL,
+	[ColoreHTML] [nvarchar](255) NOT NULL,
+	[Tipologia] [nvarchar](255) NOT NULL,
+	[ColoreAzione] [nvarchar](255) NOT NULL,
+ CONSTRAINT [PK_tblTipoAttivita] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO

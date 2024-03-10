@@ -1,0 +1,13 @@
+CREATE TABLE [dbo].[tblAttivita](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Giorno] [int] NOT NULL,
+	[RifPeriodo] [int] NOT NULL,
+	[RifTipoAttivita] [int] NOT NULL,
+	[Dettagli] [varchar](250) NULL,
+	[Costo] [money] NOT NULL,
+ CONSTRAINT [PK_tblAttivita] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO

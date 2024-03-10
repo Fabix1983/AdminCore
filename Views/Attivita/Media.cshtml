@@ -1,0 +1,209 @@
+﻿@model GenericModel
+@using System.Data
+
+@{
+    ViewData["Title"] = "Media";
+    String DataChartAggregati_valori = "";
+    String DataChartAggregati_asseX = "";
+    String DataChartAggregati_Color = "";
+    String DataChartAggregati_valori2 = "";
+    String DataChartAggregati_asseX2 = "";
+    String DataChartAggregati_Color2 = "";
+    decimal TotaleSpesaMedia = 0;
+    decimal TotaleEntMedia = 0;
+}
+
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+                <h2>Media mensile di spesa per categoria</h2>
+                <div class="box-body">
+                    <p class="col-md-8 fs-4">
+                        <i class="bi-arrow-down-square-fill"></i> Media Mensile Spese: <span class="badge text-bg-danger">@Math.Round(ViewBag.SpesaMediaMensile, 0)</span> &euro; &nbsp;&nbsp;&nbsp;<i class="bi-arrow-up-square-fill"></i> Media Mensile Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.EntrateMediaMensile, 0)</span> &euro;
+                    </p>
+                </div><!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-graph-up"></i> Medie per Tipo di Costo</h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtGenerico.Rows)
+                        {
+                            if (row["TipoAttivita"].ToString().Contains("Costo"))
+                            {
+                                TotaleSpesaMedia = TotaleSpesaMedia + (Math.Round((decimal)row["Valore"], 0));
+                                if (DataChartAggregati_valori == "")
+                                {
+                                    DataChartAggregati_valori = (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX = "\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color = "\"" + row["Colore"].ToString() + "\"";
+                                }
+                                else
+                                {
+                                    DataChartAggregati_valori = DataChartAggregati_valori + "," + (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX = DataChartAggregati_asseX + ",\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color = DataChartAggregati_Color + ",\"" + row["Colore"].ToString() + "\"";
+                                }
+                            }
+                            else
+                            {
+                                TotaleEntMedia = TotaleEntMedia + (Math.Round((decimal)row["Valore"], 0));
+                                if (DataChartAggregati_valori2 == "")
+                                {
+                                    DataChartAggregati_valori2 = (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX2 = "\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color2 = "\"" + row["Colore"].ToString() + "\"";
+                                }
+                                else
+                                {
+                                    DataChartAggregati_valori2 = DataChartAggregati_valori2 + "," + (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX2 = DataChartAggregati_asseX2 + ",\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color2 = DataChartAggregati_Color2 + ",\"" + row["Colore"].ToString() + "\"";
+                                }
+                            }
+                            <tr>
+                                <td><b><font color="@row["Colore"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (row["TipoAttivita"].ToString().Contains("Costo"))
+                                {
+                                    <td><span class="badge text-bg-danger">@row["Valore"].ToString()</span></td>
+                                    <td><i class="bi bi-graph-down-arrow"></i></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@row["Valore"].ToString()</span></td>
+                                    <td><i class="bi bi-graph-up-arrow"></i></td>
+                                }
+                            </tr>
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESA</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesaMedia</span></td>
+                            <td><i class="bi bi-graph-down-arrow"></i></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntMedia</span></td>
+                            <td><i class="bi bi-graph-up-arrow"></i></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="h-100 p-3 text-bg-dark rounded-3">
+                <h3><i class="bi bi-pie-chart"></i> Grafico a Torta</h3>
+                <div class="box-body">
+                    <canvas id="pieChart" height="300"></canvas>
+                </div>
+                <div class="box-body">
+                    <canvas id="pieChart2" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="h-60 p-3 bg-body-tertiary border rounded-3">
+                <h3><i class="bi bi-clipboard-data"></i> Grafico Spesa Media per Categoria</h3>
+                <div class="box-body">
+                    <canvas id="rowChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery 2.1.3 -->
+<script src=@Url.Content("/Content/plugins/jQuery/jQuery-2.1.3.min.js") type="text/javascript"></script>
+<script>
+
+    $(function () {
+        // GRAFICO A BARRE
+        var ctxbar = document.getElementById("rowChart").getContext("2d");
+        var dataBar = {
+            type: 'horizontalBar',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#FF3333',
+                    hoverBorderColor: '#FF3333'
+                }]
+            },
+            options: {
+                legend: { display: false },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+        var barchart = new Chart(ctxbar, dataBar);
+
+        // GRAFICO A TORTA
+        var ctxpie = $("#pieChart").get(0).getContext("2d");
+        var dataPie = {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#FF3333',
+                    hoverBorderColor: '#FF3333'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: false
+                }
+            }
+        };
+        var pieChart = new Chart(ctxpie, dataPie);
+
+        // GRAFICO A TORTA
+        var ctxpie2 = $("#pieChart2").get(0).getContext("2d");
+        var dataPie2 = {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX2)],
+                datasets: [{
+                    label: "Entrate",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color2)],
+                    data: [@Html.Raw(DataChartAggregati_valori2)],
+                    hoverBackgroundColor: '#FF3333',
+                    hoverBorderColor: '#FF3333'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: false
+                }
+            }
+        };
+        var pieChart2 = new Chart(ctxpie2, dataPie2);
+    });
+</script>

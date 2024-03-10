@@ -1,0 +1,168 @@
+﻿@model CategoriaModel
+@using System.Data
+@{
+    ViewData["Title"] = "Categorie";
+    String DataChartAggregati_valori = "";
+    String DataChartAggregati_asseX = "";
+    var tipoatt = Model.TipoAttivita.Select(c =>
+        new SelectListItem()
+        {
+            Text = c.TipoAttivita,
+            Value = c.Id.ToString()
+        });
+}
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+                <h2>Andamento di spesa per @ViewBag.Descrizione</h2>
+                <div class="box-body">
+                    <p class="col-md-8 fs-4">
+                        <i class="bi bi-graph-down"></i>Valore medio:
+                        @if (ViewBag.Descrizione.ToString().Contains("Costo"))
+                        {
+                             <span class="badge text-bg-danger">@ViewBag.Media</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-success">@ViewBag.Media</span>
+                        }
+                         &euro;
+                        <i class="bi bi-graph-down-arrow"></i>Percentuale media:
+                        @if (ViewBag.Descrizione.ToString().Contains("Costo"))
+                        {
+                            <span class="badge text-bg-danger">@(ViewBag.PercMedia)%</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-success">@(ViewBag.PercMedia)%</span>
+                        }                     
+                    </p>
+                </div><!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="h-15 p-3 text-bg-dark rounded-3">
+                <h3><i class="bi-clipboard-plus"></i> Visualizza Tipo Attivita</h3>
+                <form asp-controller="Attivita" asp-action="Categoria" method="get" class="d-flex" role="search">
+                    <select name="rifCategoria" asp-items="@tipoatt" class="form-select form-select-lg" aria-label="TipoAttivita"></select>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-outline-primary" type="submit">Aggiorna</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi-clipboard-data-fill"></i> Resoconto Andamento per @ViewBag.Descrizione</h3>
+                    @if (Model != null)
+                    {
+                    <table class="table table-striped table-dark">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Mese</th>
+                                <th>Valore</th>
+                                <th>Valore Medio</th>
+                                <th>Perc. sul Mese</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (System.Data.DataRow row in Model.DtGenerico.Rows)
+                            {
+                                if (DataChartAggregati_valori == "")
+                                {
+                                    DataChartAggregati_valori = (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX = "\"" + row["Descrizione"].ToString() + "\"";
+                                }
+                                else
+                                {
+                                    DataChartAggregati_valori = DataChartAggregati_valori + "," + (Math.Round((decimal)row["Valore"], 0)).ToString();
+                                    DataChartAggregati_asseX = DataChartAggregati_asseX + ",\"" + row["Descrizione"].ToString() + "\"";
+                                }
+                                <tr>
+                                    <td><b>@row["Descrizione"].ToString()</b></td>
+
+                                    @if (ViewBag.Descrizione.ToString().Contains("Costo"))
+                                    {
+                                        <td><span class="badge text-bg-danger">@Math.Round((decimal)row["Valore"], 0)</span></td>
+                                        <td><span class="badge text-bg-danger">@Math.Round((decimal)row["Media"], 0)</span></td>
+                                        <td><span class="badge text-bg-danger">@Math.Round((decimal)row["PercentualeSulTotale"], 0)%</span></td>
+                                    } else
+                                    {
+                                        <td><span class="badge text-bg-success">@Math.Round((decimal)row["Valore"], 0)</span></td>
+                                        <td><span class="badge text-bg-success">@Math.Round((decimal)row["Media"], 0)</span></td>
+                                        <td><span class="badge text-bg-success">@Math.Round((decimal)row["PercentualeSulTotale"], 0)%</span></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    }
+            </div>
+        </div>
+        <br>
+        <div class="col-md-6">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+                <h3><i class="bi bi-bar-chart-line-fill"></i> Grafico</h3>
+                <div class="box-body">
+                    <canvas id="trendChart" height="250"></canvas>
+                </div><!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery 2.1.3 -->
+<script src=@Url.Content("/Content/plugins/jQuery/jQuery-2.1.3.min.js") type="text/javascript"></script>
+<script>
+    $(function () {
+        // GRAFICO A BARRE
+        var ctxbar = document.getElementById("trendChart").getContext("2d");
+        var dataBar = {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "@ViewBag.Descrizione",
+                    backgroundColor: "@ViewBag.Colore",
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#FFA500',
+                    hoverBorderColor: '#FFA500'
+                }]
+            },
+            options: {
+                legend: { display: false },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+        var barchart = new Chart(ctxbar, dataBar);
+
+        document.getElementById("trendChart").onclick = function (evt) {
+            var activePoint = barchart.getElementAtEvent(event);
+
+            if (activePoint.length > 0) {
+                var clickedDatasetIndex = activePoint[0]._datasetIndex;
+                var clickedElementindex = activePoint[0]._index;
+                var label = barchart.data.labels[clickedElementindex];
+                var value = barchart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                //alert("Clicked: " + label + " - " + value); // per debug
+                //alert("Clicked: " + label); // per debug
+                console.log(clickedDatasetIndex); //inserisce dati (log) nella console per sviluppatori del browser
+                AplicoFiltroDaChartJS(label)
+            }
+        };
+
+        function AplicoFiltroDaChartJS(sFiltro) {
+            //alert("ajx post filtro: " + sFiltro); // per debug
+            //alert("ajx periodo filtro: " + @ViewBag.Mese); // per debug
+            location.href = "?descrizione=" + sFiltro + "&redir=Base";
+        }
+
+    });
+</script>

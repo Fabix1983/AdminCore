@@ -1,0 +1,601 @@
+﻿@model AttivitaModel
+@using System.Data
+
+@{
+    ViewData["Title"] = "Dashboard";
+    decimal totale = 0;
+    String DataChartAggregati_valori = "";
+    String DataChartAggregati_asseX = "";
+    String DataChartAggregati_Color = "";
+    String DataChartAggregatiGiorno_valori = "";
+    String DataChartAggregatiGiorno_asseX = "";
+    decimal totpergiorno = 0;
+    String DataChartAggregatiGiorno_valoriBasso = "";
+    String DataChartAggregatiGiorno_valoriMedio = "";
+    String DataChartAggregatiGiorno_valoriAlto = "";
+    String DataChartAggregatiGiorno_valoriGiorno = "";
+    decimal UscitaMediaGiornaliera = 0;
+    decimal EntrataMediaGiornaliera = 0;
+    UscitaMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Uscite, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+    EntrataMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Entrate, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+}
+@if (Model != null)
+{
+    @foreach (System.Data.DataRow row in Model.DtAggGiorno.Rows)
+    {
+        totpergiorno = totpergiorno + (decimal)row["CostoGiorno"];
+        if (DataChartAggregatiGiorno_valori == "")
+        {
+            DataChartAggregatiGiorno_valori = (Math.Round((decimal)totpergiorno, 0)).ToString();
+            DataChartAggregatiGiorno_valoriGiorno = (Math.Round((decimal)row["CostoGiorno"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriBasso = (Math.Round((decimal)row["costobasso"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriMedio = (Math.Round((decimal)row["costomedio"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriAlto = (Math.Round((decimal)row["costoalto"], 0)).ToString();
+            DataChartAggregatiGiorno_asseX = "\"" + row["Giorno"].ToString() + "\"";
+        }
+        else
+        {
+            DataChartAggregatiGiorno_valori = DataChartAggregatiGiorno_valori + "," + (Math.Round((decimal)totpergiorno, 0)).ToString();
+            DataChartAggregatiGiorno_valoriGiorno = DataChartAggregatiGiorno_valoriGiorno + "," + (Math.Round((decimal)row["CostoGiorno"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriBasso = DataChartAggregatiGiorno_valoriBasso + "," + (Math.Round((decimal)row["costobasso"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriMedio = DataChartAggregatiGiorno_valoriMedio + "," + (Math.Round((decimal)row["costomedio"], 0)).ToString();
+            DataChartAggregatiGiorno_valoriAlto = DataChartAggregatiGiorno_valoriAlto + "," + (Math.Round((decimal)row["costoalto"], 0)).ToString();
+            DataChartAggregatiGiorno_asseX = DataChartAggregatiGiorno_asseX + ",\"" + row["Giorno"].ToString() + "\"";
+        }
+    }
+}
+
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+                <h2>
+                    <a asp-controller="Attivita"
+                       asp-action="Base"
+                       asp-route-anno="@ViewBag.annoPrec.ToString()"
+                       asp-route-mese="@ViewBag.mesePrec.ToString()"
+                       class="link-underline-light">&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>&nbsp;</a>
+                    <a asp-controller="Attivita"
+                       asp-action="Base"
+                       asp-route-anno="@ViewBag.Anno"
+                       asp-route-mese="@ViewBag.Mese"
+                       class="link-underline-light"><b>@ViewBag.Descrizione</b></a>
+                    <a asp-controller="Attivita"
+                       asp-action="Base"
+                       asp-route-anno="@ViewBag.annoSucc.ToString()"
+                       asp-route-mese="@ViewBag.meseSucc.ToString()"
+                       class="link-underline-light">&nbsp;<i class="bi bi-arrow-right-circle-fill"></i>&nbsp;</a>
+                </h2>
+                <div class="box-body">
+                    @if (Model != null)
+                    {
+                        <p class="col-md-8 fs-4"><b>Bilancio</b>:
+                            @if (Math.Round(ViewBag.Bilancio, 0) <= 0)
+                            {
+                                <span class="badge text-bg-danger">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
+                            }
+                            &nbsp;<i class="bi bi-arrow-up-circle"></i>&nbsp;Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span>&nbsp;<i class="bi bi-arrow-down-circle"></i>&nbsp;Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span>
+                        </p>
+                    }
+                    @if (ViewBag.MeseAttuale == "SI")
+                    {
+                        <p class="col-md-8 fs-4">
+                            <span class="progress-text">Progresso Mese </span>
+                            <b>@ViewBag.GiornoOdierno</b>
+                            @{
+                                DateTime now = DateTime.Now;
+                                var startDate = new DateTime(now.Year, now.Month, 1);
+                                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                                String Dato;
+                                Dato = (Math.Round((Decimal.Parse(ViewBag.GiornoOdierno) / 31) * 100, 0)).ToString();
+                            }
+                            / @endDate.ToString("dd")
+                        </p>
+                        <p class="col-md-8 fs-4">
+                                <div class="box-body no-padding">
+                                    <div class="progress" role="progressbar" aria-label="Animated striped example 20px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 25px">
+                                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: @Dato%">@Dato%</div>
+                                    </div>
+                                </div>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="col-md-8 fs-4">
+                            <span class="progress-text"><b>Mese concluso!</b></span>
+                        </p>
+                    }
+                    @if (ViewBag.Result != "")
+                    {
+                        @ViewBag.Result
+                    }
+                </div><!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="h-15 p-3 text-bg-dark rounded-3">
+                <h3><i class="bi bi-bar-chart-line"></i> Andamento</h3>
+                <div class="box-body">
+                    @if (Model != null)
+                    {
+                    @if (Math.Round(ViewBag.Bilancio, 0) < 0 )
+                    {   
+                        <p class="col-md-8 fs-4">
+                            <div class="spinner-grow text-danger" role="status">
+                                <span class="visually-hidden"></span>
+                            </div>
+                            Bilancio: <span class="badge text-bg-danger">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
+                        </p>
+                    }else
+                    {
+                        <p class="col-md-8 fs-4">
+                            <div class="spinner-grow text-success" role="status">
+                                <span class="visually-hidden"></span>
+                            </div>
+                            Bilancio: <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
+                        </p>
+                    }
+                    <p class="col-md-8 fs-4">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
+                            Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span> &nbsp; Media Giornaliera: <span class="badge text-bg-success">@EntrataMediaGiornaliera &euro;</span>
+                    </p>
+                    <p class="col-md-8 fs-4">
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
+                            Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span> &nbsp; Media Giornaliera: <span class="badge text-bg-danger">@UscitaMediaGiornaliera &euro;</span>
+                    </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="h-15 p-3 text-bg-dark rounded-3">
+                <h3><i class="bi bi-pencil-square"></i> Nuova Attivita</h3>
+                <form method="post" asp-controller="Attivita" asp-action="BaseInsert">
+                    <input type="hidden" asp-for="RifPeriodo" value="@ViewBag.RifPeriodo" />
+                    <input type="hidden" asp-for="Anno" value="@Model.Anno" />
+                    <input type="hidden" asp-for="Mese" value="@Model.Mese" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="mb-3 row">
+                        <div class="col-auto">
+                            <label asp-for="Giorno"></label>:
+                            <input type="text" asp-for="Giorno" size="5" maxlength="2" class="form-control form-control-sm" placeholder="Giorno:" value="@ViewBag.GiornoOdierno" required />
+                            <span asp-validation-for="Giorno" class="text-danger"></span>
+                        </div>
+                        <div class="col-auto">
+                            @{
+                                var tipoatt = Model.TipoAttivita.Select(c =>
+                                new SelectListItem()
+                                {
+                                    Text = c.TipoAttivita,
+                                    Value = c.Id.ToString()
+                                });
+                            }
+                            <label asp-for="RifTipoAttivita"></label>:
+                            <select asp-for="RifTipoAttivita" asp-items="@tipoatt" class="form-control form-control-sm"></select>
+                            <span asp-validation-for="RifTipoAttivita" class="text-danger"></span>
+                        </div>
+                        <div class="col-auto">
+                            <label asp-for="Costo"></label>:
+                            <input type="text" asp-for="Costo" size="6" maxlength="26" class="form-control form-control-sm" placeholder="importo" value="" required />
+                            <span asp-validation-for="Costo" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <div class="col-auto">
+                            <label asp-for="Dettagli"></label>:
+                            <input type="text" asp-for="Dettagli" size="35" maxlength="100"  class="form-control form-control-sm" placeholder="descrizione attivita" value="" />
+                        </div>
+                        <div class="col-auto">
+                            <br>
+                            <button class="btn btn-success btn-sm" type="submit">Inserisci</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-graph-up"></i> Attivita del Mese</h3>
+                @if (Model != null)
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Giorno</th>
+                            <th>Tipo</th>
+                            <th>Dettagli</th>
+                            <th>Costo</th>
+                            <th>Tipo</th>
+                            <th>Totale</th>
+                            <th>
+                                <a asp-controller="Attivita"
+                                   asp-action="Base"
+                                   asp-route-anno="@ViewBag.Anno.ToString()"
+                                   asp-route-mese="@ViewBag.Mese.ToString()"
+                                   asp-route-order="decrescente"
+                                   class="link-underline-light"><i class="bi bi-caret-up-square-fill"></i></a>
+                            </th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.Dt.Rows)
+                        {
+                            totale = totale + (decimal)row["Costo"];
+                            <tr>
+                                <td>@row["Giorno"].ToString()</td>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <td>@row["Dettagli"].ToString()</td>
+                                <td>@Math.Round((decimal)row["Costo"], 0)</td>
+                                @if ((decimal)row["Costo"] < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@row["Tipologia"].ToString()</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@row["Tipologia"].ToString()</span></td>
+                                }
+                                <td>@Math.Round(totale, 0)</td>
+                                <td><a asp-controller="Attivita" asp-action="Cancella" asp-route-id="@((Int32)row["ID"])" asp-route-mese="@Model.Mese" asp-route-anno="@Model.Anno" class="link-underline-light"><i class="bi bi-x-circle-fill"></i></a></td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="h-60 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-card-checklist"></i> Attivita Aggregate</h3>
+                @if (Model != null)
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                            <th>Bar</th>
+                            <th>%</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtAgg.Rows)
+                        {
+                            if ((decimal)row["TotAtt"] < 0)
+                            {
+                                if (DataChartAggregati_valori == "")
+                                {
+                                    DataChartAggregati_valori = (Math.Round((decimal)row["TotAtt"], 0) * -1).ToString();
+                                    DataChartAggregati_asseX = "\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color = "\"" + row["ColoreHTML"].ToString() + "\"";
+                                }
+                                else
+                                {
+                                    DataChartAggregati_valori = DataChartAggregati_valori + "," + (Math.Round((decimal)row["TotAtt"], 0) * -1).ToString();
+                                    DataChartAggregati_asseX = DataChartAggregati_asseX + ",\"" + row["TipoAttivita"].ToString() + "\"";
+                                    DataChartAggregati_Color = DataChartAggregati_Color + ",\"" + row["ColoreHTML"].ToString() + "\"";
+                                }
+                            }
+                            <tr>
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno"
+                                       asp-route-mese="@ViewBag.Mese"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
+                                @if ((decimal)row["TotAtt"] < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                @if ((decimal)row["TotAtt"] < 0)
+                                {
+                                    <td>
+                                        <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar bg-danger" style="width: @(Math.Round(Math.Round((decimal)row["TotAtt"], 0) * 100 / Math.Round(ViewBag.Uscite, 0), 0).ToString())%"></div>
+                                        </div>
+                                    </td>
+                                    <td>@Math.Round(Math.Round((decimal)row["TotAtt"], 0) * 100 / Math.Round(ViewBag.Uscite, 0), 2)</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar bg-success" style="width: @(Math.Round(Math.Round((decimal)row["TotAtt"], 0) * 100 / Math.Round(ViewBag.Entrate, 0), 0).ToString())%"></div>
+                                        </div>
+                                    </td>
+                                    <td>@Math.Round(Math.Round((decimal)row["TotAtt"], 0) * 100 / Math.Round(ViewBag.Entrate, 0), 2)</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                }
+                <br>
+                <div class="box-body">
+                    <canvas id="areaChart" height="250"></canvas>
+                </div>
+                <br>
+                <div class="box-body">
+                    <canvas id="barChart" height="230"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="h-40 p-1 bg-body-tertiary border rounded-3">
+                <h3><i class="bi bi-pie-chart-fill"></i> Grafico a Torta</h3>
+                <div class="box-body">
+                    <canvas id="pieChart" height="250"></canvas>
+                </div>
+                <br>
+                <div class="box-body">
+                    <canvas id="bardonut" height="230"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="h-20 p-3 bg-body-tertiary border rounded-3">
+                <h3><i class="bi bi-file-earmark-bar-graph-fill"></i> Grafico Mixed</h3>
+                <div class="box-body">
+                    <canvas id="lineChartmix" height="280"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-20 p-3 bg-body-tertiary border rounded-3">
+                <h3><i class="bi bi-file-earmark-bar-graph-fill"></i> Grafico Mixed 2</h3>
+                <div class="box-body">
+                    <canvas id="lineChart" height="280"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery 2.1.3 -->
+<script src=@Url.Content("/Content/plugins/jQuery/jQuery-2.1.3.min.js") type="text/javascript"></script>
+<script>
+    $(function () {
+
+        var ctxline = document.getElementById("lineChart").getContext("2d");
+        var dataLine = {
+            type: 'line',
+            data: {
+                labels: [@Html.Raw(DataChartAggregatiGiorno_asseX)],
+                datasets: [{
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valori)],
+                    label: "In corso",
+                    borderColor: "#9370DB",
+                    fill: false
+                }, {
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valoriBasso)],
+                    label: "Basso (800€)",
+                    borderColor: "#3CB371",
+                    fill: false
+                }, {
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valoriMedio)],
+                    label: "Medio (1000€)",
+                    borderColor: "#FFA500",
+                    fill: false
+                }, {
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valoriAlto)],
+                    label: "Alto (1200€)",
+                    borderColor: "#DC143C",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+        };
+        var linechart = new Chart(ctxline, dataLine);
+
+        // GRAFICO A TORTA
+        var ctxpie = $("#pieChart").get(0).getContext("2d");
+        var dataPie = {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Agg. Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#00BFFF',
+                    hoverBorderColor: '#00BFFF'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: false
+                }
+            }
+        };
+        var pieChartX = new Chart(ctxpie, dataPie);
+
+        document.getElementById("pieChart").onclick = function (evt) {
+            var activePoint = pieChartX.getElementAtEvent(event);
+
+            if (activePoint.length > 0) {
+                var clickedDatasetIndex = activePoint[0]._datasetIndex;
+                var clickedElementindex = activePoint[0]._index;
+                var label = pieChartX.data.labels[clickedElementindex];
+                var value = pieChartX.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                //alert("Clicked: " + label + " - " + value); // per debug
+                console.log(clickedDatasetIndex); //inserisce dati (log) nella console per sviluppatori del browser
+                AplicoFiltroDaChartJS(label)
+            }
+        };
+
+        // GRAFICO A DONUT
+        var ctxpied = $("#bardonut").get(0).getContext("2d");
+        var dataPied = {
+            type: 'doughnut',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Agg. Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#00BFFF',
+                    hoverBorderColor: '#00BFFF'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: false
+                }
+            }
+        };
+        var pieChart = new Chart(ctxpied, dataPied);
+
+        document.getElementById("bardonut").onclick = function (evt) {
+            var activePoint = pieChart.getElementAtEvent(event);
+
+            if (activePoint.length > 0) {
+                var clickedDatasetIndex = activePoint[0]._datasetIndex;
+                var clickedElementindex = activePoint[0]._index;
+                var label = pieChart.data.labels[clickedElementindex];
+                var value = pieChart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                //alert("Clicked: " + label + " - " + value); // per debug
+                console.log(clickedDatasetIndex); //inserisce dati (log) nella console per sviluppatori del browser
+                AplicoFiltroDaChartJS(label)
+            }
+        };
+
+        // GRAFICO A BARRE ORIZ.
+        var ctxbarv = document.getElementById("areaChart").getContext("2d");
+        var dataBarv = {
+            type: 'horizontalBar',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Agg. Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#00BFFF',
+                    hoverBorderColor: '#00BFFF'
+                }]
+            },
+            options: {
+                legend: { display: false },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+        var barchartv = new Chart(ctxbarv, dataBarv);
+
+        document.getElementById("areaChart").onclick = function (evt) {
+            var activePoint = barchartv.getElementAtEvent(event);
+
+            if (activePoint.length > 0) {
+                var clickedDatasetIndex = activePoint[0]._datasetIndex;
+                var clickedElementindex = activePoint[0]._index;
+                var label = barchartv.data.labels[clickedElementindex];
+                var value = barchartv.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                //alert("Clicked: " + label + " - " + value); // per debug
+                console.log(clickedDatasetIndex); //inserisce dati (log) nella console per sviluppatori del browser
+                AplicoFiltroDaChartJS(label)
+            }
+        };
+
+        // GRAFICO A BARRE
+        var ctxbar = document.getElementById("barChart").getContext("2d");
+        var dataBar = {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(DataChartAggregati_asseX)],
+                datasets: [{
+                    label: "Agg. Spese",
+                    backgroundColor: [@Html.Raw(DataChartAggregati_Color)],
+                    data: [@Html.Raw(DataChartAggregati_valori)],
+                    hoverBackgroundColor: '#00BFFF',
+                    hoverBorderColor: '#00BFFF'
+                }]
+            },
+            options: {
+                legend: { display: false },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+        var barchart = new Chart(ctxbar, dataBar);
+
+        document.getElementById("barChart").onclick = function (evt) {
+            var activePoint = barchart.getElementAtEvent(event);
+
+            if (activePoint.length > 0) {
+                var clickedDatasetIndex = activePoint[0]._datasetIndex;
+                var clickedElementindex = activePoint[0]._index;
+                var label = barchart.data.labels[clickedElementindex];
+                var value = barchart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                //alert("Clicked: " + label + " - " + value); // per debug
+                console.log(clickedDatasetIndex); //inserisce dati (log) nella console per sviluppatori del browser
+                AplicoFiltroDaChartJS(label)
+            }
+        };
+
+        // GRAFICO mixed
+        var ctxlinemix = document.getElementById("lineChartmix").getContext("2d");
+        var dataLinemix = {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(DataChartAggregatiGiorno_asseX)],
+                datasets: [{
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valori)],
+                    label: "Valore complessivo",
+                    type: "line",
+                    borderColor: "#3CB371",
+                    backgroundColor: "#3CB371",
+                    fill: false
+                }, {
+                    data: [@Html.Raw(DataChartAggregatiGiorno_valoriGiorno)],
+                    label: "Valore Netto Giorno",
+                    type: "bar",
+                    borderColor: "#DC143C",
+                    backgroundColor: "#DC143C",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+        };
+        var linechartmix = new Chart(ctxlinemix, dataLinemix);
+
+        function AplicoFiltroDaChartJS(sFiltro) {
+            //alert("ajx post filtro: " + sFiltro); // per debug
+            //alert("ajx periodo filtro: " + @ViewBag.Mese); // per debug
+            location.href = "?anno=@ViewBag.Anno&mese=@ViewBag.Mese&filtro=" + sFiltro;
+        }
+    });
+</script>
