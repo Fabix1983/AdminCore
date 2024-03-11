@@ -18,6 +18,20 @@
     decimal EntrataMediaGiornaliera = 0;
     UscitaMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Uscite, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
     EntrataMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Entrate, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+
+    decimal Margine = 0;
+    DateTime nowMese = DateTime.Now;
+    DateTime startDateMese = new DateTime(nowMese.Year, nowMese.Month, 1);
+    DateTime endDateMese = startDateMese.AddMonths(1).AddDays(-1);
+
+    if (Math.Round(ViewBag.Bilancio, 0) > 0 )
+    {
+        Margine = Math.Round(( Math.Round(ViewBag.Bilancio, 0) / (endDateMese.Day - nowMese.Day) ),0);
+    }
+    else
+    {
+        Margine = 0;    
+    }
 }
 @if (Model != null)
 {
@@ -93,9 +107,8 @@
                                 DateTime now = DateTime.Now;
                                 var startDate = new DateTime(now.Year, now.Month, 1);
                                 var endDate = startDate.AddMonths(1).AddDays(-1);
-
                                 String Dato;
-                                Dato = (Math.Round((Decimal.Parse(ViewBag.GiornoOdierno) / 31) * 100, 0)).ToString();
+                                Dato = (Math.Round((Decimal.Parse(ViewBag.GiornoOdierno) / endDate.Day) * 100, 0)).ToString();
                             }
                             / @endDate.ToString("dd")
                         </p>
@@ -122,39 +135,43 @@
         </div>
         <div class="col-md-3">
             <div class="h-15 p-3 text-bg-dark rounded-3">
-                <h3><i class="bi bi-bar-chart-line"></i> Andamento</h3>
-                <div class="box-body">
+                <h3><i class="bi bi-bar-chart-line"></i> Statistiche
                     @if (Model != null)
                     {
-                    @if (Math.Round(ViewBag.Bilancio, 0) < 0 )
-                    {   
-                        <p class="col-md-8 fs-4">
+                        @if (Math.Round(ViewBag.Bilancio, 0) < 0)
+                        {
                             <div class="spinner-grow text-danger" role="status">
                                 <span class="visually-hidden"></span>
                             </div>
-                            Bilancio: <span class="badge text-bg-danger">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
-                        </p>
-                    }else
-                    {
-                        <p class="col-md-8 fs-4">
+                        }
+                        else
+                        {
                             <div class="spinner-grow text-success" role="status">
                                 <span class="visually-hidden"></span>
                             </div>
-                            Bilancio: <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
-                        </p>
+                        }
                     }
-                    <p class="col-md-8 fs-4">
-                        <div class="spinner-border text-success" role="status">
-                            <span class="visually-hidden"></span>
-                        </div>
-                            Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span> &nbsp; Media Giornaliera: <span class="badge text-bg-success">@EntrataMediaGiornaliera &euro;</span>
-                    </p>
-                    <p class="col-md-8 fs-4">
-                        <div class="spinner-border text-danger" role="status">
-                            <span class="visually-hidden"></span>
-                        </div>
-                            Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span> &nbsp; Media Giornaliera: <span class="badge text-bg-danger">@UscitaMediaGiornaliera &euro;</span>
-                    </p>
+                </h3>
+                <div class="box-body">
+                    @if (Model != null)
+                    {
+                        @if (Math.Round(ViewBag.Bilancio, 0) < 0 )
+                        {
+                            <p class="col-md-12 fs-5">
+                                Bilancio: <span class="badge text-bg-danger">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
+                            </p>
+                        }else
+                        {
+                            <p class="col-md-12 fs-5">
+                                Bilancio: <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span> Margine: @Margine &euro;
+                            </p>
+                        }
+                        <p class="col-md-12 fs-5">
+                            <i class="bi bi-arrow-up-circle"></i> Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span> Media: <span class="badge text-bg-success">@EntrataMediaGiornaliera &euro;</span>
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            <i class="bi bi-arrow-down-circle"></i> Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span> Media: <span class="badge text-bg-danger">@UscitaMediaGiornaliera &euro;</span>
+                        </p>
                     }
                 </div>
             </div>

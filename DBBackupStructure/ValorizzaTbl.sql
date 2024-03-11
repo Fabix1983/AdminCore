@@ -2,9 +2,9 @@
 SET XACT_ABORT ON
 BEGIN TRAN transcation
 
--- Caricamento del tipo di attivita
+-- Caricamento del tipo di attivita:
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
-VALUES('Spesa Alimentare', 'CORAL', 'Costo', 'RED')
+VALUES('Alimentare', 'CORAL', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
 VALUES('Vestiti', 'MEDIUMPURPLE', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
@@ -12,7 +12,7 @@ VALUES('Trasporto', 'CORNFLOWERBLUE', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
 VALUES('Varie', 'GREY', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
-VALUES('Spese Una Tantum', 'GOLDENROD', 'Costo', 'RED')
+VALUES('Una Tantum', 'GOLDENROD', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
 VALUES('Salute', 'CRIMSON', 'Costo', 'RED')
 INSERT INTO tblTipoAttivita(TipoAttivita, ColoreHTML, Tipologia, ColoreAzione)
