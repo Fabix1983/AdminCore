@@ -16,8 +16,18 @@
     String DataChartAggregatiGiorno_valoriGiorno = "";
     decimal UscitaMediaGiornaliera = 0;
     decimal EntrataMediaGiornaliera = 0;
-    UscitaMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Uscite, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
-    EntrataMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Entrate, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+    if (ViewBag.MeseAttuale == "SI")
+    {
+        UscitaMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Uscite, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+        EntrataMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Entrate, 0) / Decimal.Parse(ViewBag.GiornoOdierno), 2);
+    }
+    else
+    {
+        DateTime startDateMeseConcluso = new DateTime(ViewBag.Anno, ViewBag.Mese, 1);
+        DateTime endDateMeseConcluso = startDateMeseConcluso.AddMonths(1).AddDays(-1);
+        UscitaMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Uscite, 0) / Decimal.Parse(endDateMeseConcluso.ToString("dd")), 2);
+        EntrataMediaGiornaliera = Math.Round(@Math.Round(ViewBag.Entrate, 0) / Decimal.Parse(endDateMeseConcluso.ToString("dd")), 2);
+    }
 
     decimal Margine = 0;
     DateTime nowMese = DateTime.Now;
@@ -95,7 +105,7 @@
                             {
                                 <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span>
                             }
-                            &nbsp;<i class="bi bi-arrow-up-circle"></i>&nbsp;Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span>&nbsp;<i class="bi bi-arrow-down-circle"></i>&nbsp;Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span>
+                            <i class="bi bi-arrow-up-circle"></i> Entrate: <span class="badge text-bg-success">@Math.Round(ViewBag.Entrate, 0)&euro;</span> <i class="bi bi-arrow-down-circle"></i> Uscite: <span class="badge text-bg-danger">@Math.Round(ViewBag.Uscite, 0)&euro;</span>
                         </p>
                     }
                     @if (ViewBag.MeseAttuale == "SI")
@@ -163,7 +173,7 @@
                         }else
                         {
                             <p class="col-md-12 fs-5">
-                                Bilancio: <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span> Margine: @Margine &euro;
+                                Bilancio: <span class="badge text-bg-success">@Math.Round(ViewBag.Bilancio, 0)&euro;</span> Margine (gg): @Margine &euro;
                             </p>
                         }
                         <p class="col-md-12 fs-5">
