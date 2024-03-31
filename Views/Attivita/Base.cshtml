@@ -36,7 +36,10 @@
 
     if (Math.Round(ViewBag.Bilancio, 0) > 0 )
     {
-        Margine = Math.Round(( Math.Round(ViewBag.Bilancio, 0) / (endDateMese.Day - nowMese.Day) ),0);
+        if ( (endDateMese.Day - nowMese.Day) > 0)
+        {
+            Margine = Math.Round(( Math.Round(ViewBag.Bilancio, 0) / (endDateMese.Day - nowMese.Day) ),0);    
+        }       
     }
     else
     {
