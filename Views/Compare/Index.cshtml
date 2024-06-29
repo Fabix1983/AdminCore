@@ -1,0 +1,357 @@
+﻿@model CompareModel
+@using System.Data
+
+@{
+    ViewData["Title"] = "Compare";
+    decimal TotaleSpesa0 = 0;
+    decimal TotaleEntrate0 = 0;
+    decimal Bilancio0 = 0;
+    decimal TotaleSpesa1 = 0;
+    decimal TotaleEntrate1 = 0;
+    decimal Bilancio1 = 0;
+    decimal TotaleSpesa2 = 0;
+    decimal TotaleEntrate2 = 0;
+    decimal Bilancio2 = 0;
+    decimal TotaleSpesa3 = 0;
+    decimal TotaleEntrate3 = 0;
+    decimal Bilancio3 = 0;
+    decimal TotaleSpesa4 = 0;
+    decimal TotaleEntrate4 = 0;
+    decimal Bilancio4 = 0;
+    decimal TotaleSpesa5 = 0;
+    decimal TotaleEntrate5 = 0;
+    decimal Bilancio5 = 0;
+}
+
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h-100 p-3 bg-body-tertiary border rounded-3">
+                <h2>Comparativo degli aggregati di spesa e entrata degli ultimi 6 Mesi.</h2>
+                <div class="box-body">
+                </div><!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione5 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese5.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa5 = TotaleSpesa5 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            else
+                            {
+                                TotaleEntrate5 = TotaleEntrate5 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio5 = TotaleEntrate5 + TotaleSpesa5;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa5</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate5</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio5</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione4 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese4.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa4 = TotaleSpesa4 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            else
+                            {
+                                TotaleEntrate4 = TotaleEntrate4 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio4 = TotaleEntrate4 + TotaleSpesa4;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa4</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate4</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio4</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione3 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese3.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa3 = TotaleSpesa3 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            else
+                            {
+                                TotaleEntrate3 = TotaleEntrate3 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio3 = TotaleEntrate3 + TotaleSpesa3;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa3</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate3</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio3</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione2 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese2.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa2 = TotaleSpesa2 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            else
+                            {
+                                TotaleEntrate2 = TotaleEntrate2 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio2 = TotaleEntrate2 + TotaleSpesa2;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa2</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate2</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio2</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione1 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese1.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa1 = TotaleSpesa1 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            else
+                            {
+                                TotaleEntrate1 = TotaleEntrate1 + (Math.Round((decimal)row["TotAtt"], 0));
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio1 = TotaleEntrate1 + TotaleSpesa1;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa1</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate1</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio1</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="h-80 p-3 bg-body-tertiary border rounded-3 table-responsive">
+                <h3><i class="bi bi-table"></i> @ViewBag.Descrizione0 </h3>
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>TipoAttivita</th>
+                            <th>Valore</th>
+                        </tr>
+                        @foreach (System.Data.DataRow row in Model.DtMese0.Rows)
+                        {
+                            if (Math.Round((decimal)row["TotAtt"]) < 0)
+                            {
+                                TotaleSpesa0 = TotaleSpesa0 + (Math.Round((decimal)row["TotAtt"], 0));                            
+                            }
+                            else
+                            {
+                                TotaleEntrate0 = TotaleEntrate0 + (Math.Round((decimal)row["TotAtt"], 0));                                
+                            }
+                            <tr>
+                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                @if (Math.Round((decimal)row["TotAtt"]) < 0)
+                                {
+                                    <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge text-bg-success">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
+                                }
+                            </tr>
+                        }
+                        @{
+                            Bilancio0 = TotaleEntrate0 + TotaleSpesa0;
+                        }
+                        <tr>
+                            <td><b>TOTALE SPESE</b></td>
+                            <td><span class="badge text-bg-danger">@TotaleSpesa0</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTALE ENTRATE</b></td>
+                            <td><span class="badge text-bg-success">@TotaleEntrate0</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>BILANCIO</b></td>
+                            <td><span class="badge text-bg-success">@Bilancio0</span></td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
