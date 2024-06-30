@@ -61,7 +61,15 @@
                                 TotaleEntrate5 = TotaleEntrate5 + (Math.Round((decimal)row["TotAtt"], 0));
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno5"
+                                       asp-route-mese="@ViewBag.Mese5"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
@@ -113,7 +121,15 @@
                                 TotaleEntrate4 = TotaleEntrate4 + (Math.Round((decimal)row["TotAtt"], 0));
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno4"
+                                       asp-route-mese="@ViewBag.Mese4"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
@@ -165,7 +181,15 @@
                                 TotaleEntrate3 = TotaleEntrate3 + (Math.Round((decimal)row["TotAtt"], 0));
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno3"
+                                       asp-route-mese="@ViewBag.Mese3"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
@@ -217,7 +241,15 @@
                                 TotaleEntrate2 = TotaleEntrate2 + (Math.Round((decimal)row["TotAtt"], 0));
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno2"
+                                       asp-route-mese="@ViewBag.Mese2"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
@@ -269,7 +301,15 @@
                                 TotaleEntrate1 = TotaleEntrate1 + (Math.Round((decimal)row["TotAtt"], 0));
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno1"
+                                       asp-route-mese="@ViewBag.Mese1"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>
@@ -321,7 +361,15 @@
                                 TotaleEntrate0 = TotaleEntrate0 + (Math.Round((decimal)row["TotAtt"], 0));                                
                             }
                             <tr>
-                                <td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>
+                                <!--<td><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></td>-->
+                                <td>
+                                    <a asp-controller="Attivita"
+                                       asp-action="Base"
+                                       asp-route-anno="@ViewBag.Anno0"
+                                       asp-route-mese="@ViewBag.Mese0"
+                                       asp-route-filtro="@row["TipoAttivita"].ToString()"
+                                       class="link-underline-light"><b><font color="@row["ColoreHTML"].ToString()">@row["TipoAttivita"].ToString()</font></b></a>
+                                </td>
                                 @if (Math.Round((decimal)row["TotAtt"]) < 0)
                                 {
                                     <td><span class="badge text-bg-danger">@Math.Round((decimal)row["TotAtt"], 0)</span></td>

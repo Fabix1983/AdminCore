@@ -68,6 +68,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo0 = (int)reader["ID"];
                             ViewBag.Descrizione0 = reader["Descrizione"].ToString();
+                            ViewBag.Anno0 = anno;
+                            ViewBag.Mese0 = mese;
                         }
                     }
                 }
@@ -117,6 +119,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo1 = (int)reader["ID"];
                             ViewBag.Descrizione1 = reader["Descrizione"].ToString();
+                            ViewBag.Anno1 = anno;
+                            ViewBag.Mese1 = mese;
                         }
                     }
                 }
@@ -167,6 +171,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo2 = (int)reader["ID"];
                             ViewBag.Descrizione2 = reader["Descrizione"].ToString();
+                            ViewBag.Anno2 = anno;
+                            ViewBag.Mese2 = mese;
                         }
                     }
                 }
@@ -217,6 +223,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo3 = (int)reader["ID"];
                             ViewBag.Descrizione3 = reader["Descrizione"].ToString();
+                            ViewBag.Anno3 = anno;
+                            ViewBag.Mese3 = mese;
                         }
                     }
                 }
@@ -267,6 +275,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo4 = (int)reader["ID"];
                             ViewBag.Descrizione4 = reader["Descrizione"].ToString();
+                            ViewBag.Anno4 = anno;
+                            ViewBag.Mese4 = mese;
                         }
                     }
                 }
@@ -317,6 +327,8 @@ namespace AdminCore.Controllers
                         {
                             ViewBag.RifPeriodo5 = (int)reader["ID"];
                             ViewBag.Descrizione5 = reader["Descrizione"].ToString();
+                            ViewBag.Anno5 = anno;
+                            ViewBag.Mese5 = mese;
                         }
                     }
                 }

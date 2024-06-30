@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\admincore</_PublishTargetUrl>
-    <History>True|2024-06-29T09:05:56.7957230Z;True|2024-06-29T10:51:40.2721300+02:00;</History>
+    <History>True|2024-06-30T09:34:15.0544742Z;True|2024-06-29T11:05:56.7957230+02:00;True|2024-06-29T10:51:40.2721300+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
