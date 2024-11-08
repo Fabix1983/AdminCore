@@ -93,7 +93,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio5</span></td>
+                            @if (Bilancio5 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio5</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio5</span></td>
+                            }
                         </tr>
                     </table>
                 }
@@ -153,7 +160,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio4</span></td>
+                            @if (Bilancio4 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio4</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio4</span></td>
+                            }
                         </tr>
                     </table>
                 }
@@ -213,7 +227,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio3</span></td>
+                            @if (Bilancio3 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio3</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio3</span></td>
+                            }
                         </tr>
                     </table>
                 }
@@ -273,7 +294,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio2</span></td>
+                            @if (Bilancio2 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio2</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio2</span></td>
+                            }
                         </tr>
                     </table>
                 }
@@ -333,7 +361,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio1</span></td>
+                            @if (Bilancio1 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio1</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio1</span></td>
+                            }
                         </tr>
                     </table>
                 }
@@ -393,7 +428,14 @@
                         </tr>
                         <tr>
                             <td><b>BILANCIO</b></td>
-                            <td><span class="badge text-bg-success">@Bilancio0</span></td>
+                            @if (Bilancio0 < 0)
+                            {
+                                <td><span class="badge text-bg-danger">@Bilancio0</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-success">@Bilancio0</span></td>
+                            }                         
                         </tr>
                     </table>
                 }

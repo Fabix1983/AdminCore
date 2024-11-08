@@ -109,3 +109,4 @@ C:\Users\PC\Desktop\GitHub\AdminCore\obj\Debug\net8.0\refint\AdminCore.dll
 C:\Users\PC\Desktop\GitHub\AdminCore\obj\Debug\net8.0\AdminCore.pdb
 C:\Users\PC\Desktop\GitHub\AdminCore\obj\Debug\net8.0\AdminCore.genruntimeconfig.cache
 C:\Users\PC\Desktop\GitHub\AdminCore\obj\Debug\net8.0\ref\AdminCore.dll
+C:\Users\PC\Desktop\Progetti Locale\AdminCore Progetto ASP.NET CORE 8.0\AdminCore\obj\Debug\net8.0\AdminCore.sourcelink.json
