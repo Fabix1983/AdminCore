@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nz5gvX6A6nPue5rX0KwXE/d+D/UZ33swIi1EKgIEwrVaRb9DMUksDsRRzL8PO06HUwgIkdXawr6u/fG84oWgLQ==",
+  "dgSpecHash": "4D55ezBepdZaNfTNlt3+bpAZaNzYXDYyauKZnfhRdcfM0PtVmFB+hzAzg0av75v3fqBrfmAvfR8UeaObcPVCXA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Desktop\\Progetti Locale\\AdminCore Progetto ASP.NET CORE 8.0\\AdminCore\\AdminCore.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\GitHub\\AdminCore\\AdminCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
